@@ -1,0 +1,57 @@
+import re
+import pickle
+from tkinter import Tk, Frame, Label, Entry, Button, Text, Scrollbar
+from difflib import SequenceMatcher
+
+def carregar_dicionario(arquivo_dicionario):
+  """
+  Carrega o dicionário de palavras em português do arquivo.
+
+  Argumentos:
+    arquivo_dicionario (str): Caminho para o arquivo de texto contendo as palavras.
+
+  Retorno:
+    set: Conjunto de palavras do dicionário.
+  """
+  try:
+    with open(arquivo_dicionario, 'rb') as f:
+      dicionario = pickle.load(f)
+  except (FileNotFoundError, pickle.UnpicklingError):
+    dicionario = set()
+    with open(arquivo_dicionario, 'r') as f:
+      for linha in f:
+        palavra = linha.strip().lower()
+        dicionario.add(palavra)
+    with open(arquivo_dicionario, 'wb') as f:
+      pickle.dump(dicionario, f)
+  return dicionario
+
+def verificar_ortografia(arquivo_texto, dicionario, considerar_maiusculas=False, max_distancia_correcao=2):
+  """
+  Verifica a ortografia das palavras em um arquivo de texto e sugere correções.
+
+  Argumentos:
+    arquivo_texto (str): Caminho para o arquivo de texto a ser verificado.
+    dicionario (set): Conjunto de palavras do dicionário.
+    considerar_maiusculas (bool): Se True, considera a capitalização das palavras.
+    max_distancia_correcao (int): Distância máxima de edição para sugestões de correção.
+
+  Retorno:
+    dict: Dicionário com as palavras incorretas como chaves e seus erros como valores.
+      Cada valor é um dicionário com as seguintes chaves:
+        - 'erros': Lista de erros ortográficos (palavras incorretas).
+        - 'sugestoes': Lista de sugestões de correção (tuplas de palavra e distância de edição).
+  """
+  erros_ortografia = {}
+  for linha_texto in open(arquivo_texto, 'r'):
+    palavras = re.findall(r"\w+", linha_texto)
+    for palavra in palavras:
+      if considerar_maiusculas:
+        palavra_normalizada = palavra
+      else:
+        palavra_normalizada = palavra.lower()
+      if palavra_normalizada not in dicionario:
+        erros = erros_ortografia.setdefault(palavra, {'erros': [], 'sugestoes': []})
+        erros['erros'].append(palavra)
+        sugestoes = sugerir_correcoes(palavra_normalizada, dicionario, max_distancia_correcao)
+        if sugestoes:
