@@ -1,0 +1,6 @@
+S = float(input(" digite aqui o valor gasto no SUCO: "))
+P = float(input(" digite aqui o valor gasto no PRATO PRINCIPAL: "))
+SM = float(input(" digite aqui o valor gasto na SOBREMESA: "))
+result = (S+P+SM)*(110/100)
+formatted_num = "{:.2f}".format(result)
+print(" o valor total a ser pago neste restaurante é de R$", formatted_num, ".")

@@ -1,0 +1,12 @@
+print('='*30)
+print('    JUROS COMPOSTOS   ')
+print('='*30)
+deposito=int(input('Digite aqui o valor inicial depositado na conta: '))
+primeiro_ano=deposito*(112/100)
+segundo_ano=primeiro_ano*(112/100)
+terceiro_ano=segundo_ano*(112/100)
+import math
+format1='{:.2f}'.format(primeiro_ano)
+format2='{:.2f}'.format(segundo_ano)
+format3='{:.2f}'.format(terceiro_ano)
+print(f'No primeiro ano terá um saldo de R${format1}, no segundo ano o saldo será de R${format2} e no terceiro será de R${format3}')

@@ -1,0 +1,26 @@
+print('='*30)
+print('     CONTAGEM DE MOEDAS   ')
+print('='*30)
+
+def calculo(centavos):
+    coins = [50, 25, 10, 5, 1]
+    change = []
+    for moeda in coins:
+        contagem = centavos // moeda
+        centavos %= moeda
+        if contagem > 0:
+            change.append((moeda, contagem))
+    return change
+
+def main():
+    cents = int(input("Digite a quantidade de centavos: "))
+    if cents < 0 or cents > 99:
+        print("Quantidade inválida de centavos. Deve ser entre 0 e 99.")
+        return
+    
+    change = calculo(cents)
+    print("Troco:")
+    for coin, contagem in change:
+        print(f"{contagem} moeda(s) de {coin} centavos")
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,10 @@
+print('----------ORDENAÇÃO DE 3 INTEIROS-----------')
+N1=int(input('Digite o primeiro valor: '))
+N2=int(input('Digite o segundo valor: '))
+N3=int(input('Digite o terceiro valor: '))
+result=[N1,N2,N3]
+max=max(result)
+min=min(result)
+valor_meio=(N1+N2+N3)-(max)-(min)
+print(f'O maior valor é o {max}, o valor do meio é o {valor_meio} e o menor valor é {min}, obtendo-se assim: {min}<{valor_meio}<{max} .')
+print('--------------------------------------------------')
